@@ -1,0 +1,26 @@
+{
+  "name": "@seo-spy/seo-audit",
+  "version": "1.0.0",
+  "description": "Automated SEO audit and health check tools",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "seo",
+    "audit",
+    "health-check",
+    "analysis"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

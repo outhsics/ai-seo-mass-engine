@@ -1,0 +1,28 @@
+{
+  "name": "@seo-spy/gemini-gen",
+  "version": "1.0.0",
+  "description": "Google Gemini AI integration for content generation",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "gemini",
+    "google",
+    "ai",
+    "content-generation"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.1.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

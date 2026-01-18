@@ -1,0 +1,29 @@
+{
+  "name": "@seo-spy/amplify-deploy",
+  "version": "1.0.0",
+  "description": "AWS Amplify deployment automation for AI-SEO-Mass-Engine",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "aws",
+    "amplify",
+    "deployment",
+    "seo"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-amplify": "^3.450.0",
+    "@aws-sdk/credential-providers": "^3.450.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}
