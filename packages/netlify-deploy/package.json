@@ -1,0 +1,29 @@
+{
+  "name": "@seo-spy/netlify-deploy",
+  "version": "1.0.0",
+  "description": "Netlify deployment automation for AI-SEO-Mass-Engine",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "netlify",
+    "deployment",
+    "seo",
+    "automation"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "form-data": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@seo-spy/wordpress-exporter",
+  "version": "1.0.0",
+  "description": "WordPress XML export generator for AI-SEO-Mass-Engine",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "wordpress",
+    "export",
+    "xml",
+    "wxr",
+    "migration"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "dependencies": {
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/xml2js": "^0.4.14",
+    "typescript": "^5.3.3"
+  }
+}

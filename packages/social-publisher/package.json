@@ -1,0 +1,26 @@
+{
+  "name": "@seo-spy/social-publisher",
+  "version": "1.0.0",
+  "description": "Social media auto-publishing for AI-SEO-Mass-Engine",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "social-media",
+    "twitter",
+    "linkedin",
+    "auto-publishing"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

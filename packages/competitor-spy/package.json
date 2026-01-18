@@ -1,0 +1,26 @@
+{
+  "name": "@seo-spy/competitor-spy",
+  "version": "1.0.0",
+  "description": "Competitor analysis and monitoring for AI-SEO-Mass-Engine",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "competitor-analysis",
+    "seo",
+    "monitoring",
+    "backlinks"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

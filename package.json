@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm -F \"@seo-spy/*\" run dev",
-    "build:packages": "pnpm -F \"@seo-spy/keyword-spy\" build && pnpm -F \"@seo-spy/article-gen\" build && pnpm -F \"@seo-spy/deploy\" build && pnpm -F \"@seo-spy/sitemap-submitter\" build && pnpm -F \"@seo-spy/orchestrator\" build && pnpm -F \"@seo-spy/internal-linker\" build && pnpm -F \"@seo-spy/image-gen\" build && pnpm -F \"@seo-spy/rank-monitor\" build && pnpm -F \"@seo-spy/analytics-dashboard\" build && pnpm -F \"@seo-spy/ab-testing\" build && pnpm -F \"@seo-spy/cluster-manager\" build && pnpm -F \"@seo-spy/global-dashboard\" build && pnpm -F \"@seo-spy/data-sync\" build && pnpm -F \"@seo-spy/auto-reports\" build && pnpm -F \"@seo-spy/i18n\" build",
+    "build:packages": "pnpm -F \"@seo-spy/keyword-spy\" build && pnpm -F \"@seo-spy/article-gen\" build && pnpm -F \"@seo-spy/deploy\" build && pnpm -F \"@seo-spy/sitemap-submitter\" build && pnpm -F \"@seo-spy/orchestrator\" build && pnpm -F \"@seo-spy/internal-linker\" build && pnpm -F \"@seo-spy/image-gen\" build && pnpm -F \"@seo-spy/rank-monitor\" build && pnpm -F \"@seo-spy/analytics-dashboard\" build && pnpm -F \"@seo-spy/ab-testing\" build && pnpm -F \"@seo-spy/cluster-manager\" build && pnpm -F \"@seo-spy/global-dashboard\" build && pnpm -F \"@seo-spy/data-sync\" build && pnpm -F \"@seo-spy/auto-reports\" build && pnpm -F \"@seo-spy/i18n\" build && pnpm -F \"@seo-spy/netlify-deploy\" build && pnpm -F \"@seo-spy/gpt4-gen\" build && pnpm -F \"@seo-spy/wordpress-exporter\" build && pnpm -F \"@seo-spy/social-publisher\" build && pnpm -F \"@seo-spy/competitor-spy\" build",
     "build:site": "pnpm -F \"@seo-spy/site-template\" build",
     "build": "pnpm build:packages",
     "start": "node packages/orchestrator/dist/index.js",
@@ -22,7 +22,12 @@
     "cluster:manage": "node packages/cluster-manager/dist/index.js",
     "global-dashboard": "node packages/global-dashboard/dist/index.js",
     "backup:create": "node packages/data-sync/dist/index.js",
-    "report:weekly": "node packages/auto-reports/dist/index.js"
+    "report:weekly": "node packages/auto-reports/dist/index.js",
+    "netlify:deploy": "node packages/netlify-deploy/dist/index.js",
+    "articles:gpt4": "node packages/gpt4-gen/dist/index.js",
+    "wordpress:export": "node packages/wordpress-exporter/dist/index.js",
+    "social:publish": "node packages/social-publisher/dist/index.js",
+    "competitor:analyze": "node packages/competitor-spy/dist/index.js"
   },
   "keywords": [
     "seo",

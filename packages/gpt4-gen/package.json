@@ -1,0 +1,29 @@
+{
+  "name": "@seo-spy/gpt4-gen",
+  "version": "1.0.0",
+  "description": "GPT-4 integration for article generation in AI-SEO-Mass-Engine",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "gpt-4",
+    "openai",
+    "content-generation",
+    "ai",
+    "seo"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "dependencies": {
+    "openai": "^4.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}
