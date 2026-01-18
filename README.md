@@ -51,6 +51,20 @@ AI-SEO-Mass-Engine is a fully automated SEO site matrix management system that l
 - [x] **自动化报告** - 定期生成 SEO 效果报告
 - [x] **多语言支持** - 支持多语言内容生成和管理
 
+### 🌟 Phase 4: 企业级扩展 / Enterprise Extensions
+- [x] **多部署平台** - Netlify, AWS Amplify 支持
+- [x] **多 AI 模型** - GPT-4, Gemini 内容生成
+- [x] **WordPress 导出** - 兼容 WordPress CMS
+- [x] **社交媒体发布** - 自动发布到社交平台
+- [x] **竞争对手分析** - 智能竞品分析
+
+### 🔬 Phase 5: 高级智能与自动化 / Advanced Intelligence
+- [x] **AWS Amplify 部署** - 无服务器部署支持
+- [x] **Gemini AI 集成** - Google Gemini 内容生成
+- [x] **SEO 审计工具** - 自动化 SEO 健康检查
+- [x] **反向链接建设** - 智能外链发现和建设
+- [x] **邮件营销自动化** - 批量邮件营销活动
+
 ---
 
 ## 🛠️ 技术栈 / Tech Stack
@@ -191,6 +205,65 @@ pnpm run report:weekly
 
 ## ⚙️ 配置说明 / Configuration
 
+### 🔒 安全特性 / Security Features
+
+本项目包含完整的安全系统，包括环境变量验证、结构化日志、错误处理和加密功能。
+
+**This project includes a comprehensive security system with environment variable validation, structured logging, error handling, and encryption features.**
+
+| 功能 / Feature | 描述 / Description | 包 / Package |
+|--------------|---------------------|---------------|
+| 环境变量验证 | 确保所有必需的环境变量已正确配置 | `@seo-spy/config` |
+| 结构化日志 | 支持多级别日志、上下文和格式化 | `@seo-spy/logger` |
+| 错误处理 | 错误分类、重试逻辑和降级策略 | `@seo-spy/error-handler` |
+| 数据加密 | AES-256-CBC 加密、JWT 和 HMAC | `@seo-spy/config` |
+
+### API 密钥加密 / API Key Encryption
+
+系统支持加密存储敏感的 API 密钥，防止在代码库或配置文件中暴露明文密钥。
+
+**The system supports encrypting sensitive API keys to prevent exposure in codebases or configuration files.**
+
+#### 加密 API 密钥 / Encrypting API Keys
+
+```bash
+# 使用 Node.js 加密
+node -e "
+import { encryptApiKey, generateRandomKey } from './packages/config/dist/index.js';
+const apiKey = 'your_actual_api_key_here';
+const encryptionKey = generateRandomKey();
+console.log('Encrypted API Key:', encryptApiKey(apiKey, encryptionKey));
+console.log('Encryption Key (store in .env as ENCRYPTION_KEY):', encryptionKey);
+"
+
+# 或使用 OpenSSL (手动加密)
+# 1. 生成密钥
+openssl rand -base64 32 > encryption.key
+# 2. 加密 API 密钥
+echo -n "your_actual_api_key_here" | openssl enc -e -aes-256-cbc -K "$(openssl rand -hex 32)" -iv "$(openssl rand -hex 16)" -base64
+```
+
+#### 在 `.env` 文件中使用加密的 API 密钥 / Using Encrypted API Keys in .env
+
+```env
+# 设置加密密钥 (Generate first)
+ENCRYPTION_KEY=your_generated_32_byte_encryption_key_base64
+
+# 使用加密的 API 密钥 (替换为实际加密后的值)
+ANTHROPIC_API_KEY=764ae0334f5e9028b0a60a0a1a2a3a4a5a6a7a8a9aaabacadaeaf:encrypted_data
+OPENAI_API_KEY=another_encrypted_value_here
+```
+
+#### 验证加密状态 / Verifying Encryption Status
+
+```bash
+node -e "
+import { isEncrypted } from './packages/config/dist/index.js';
+console.log('ANTHROPIC_API_KEY is encrypted:', isEncrypted(process.env.ANTHROPIC_API_KEY));
+console.log('OPENAI_API_KEY is encrypted:', isEncrypted(process.env.OPENAI_API_KEY));
+"
+```
+
 ### 环境变量 / Environment Variables
 
 创建 `.env` 文件并配置以下变量 / Create `.env` file with the following variables:
@@ -213,6 +286,47 @@ VERCEL_TEAM_ID=your_team_id
 # Google Search Console (可选 / Optional)
 GOOGLE_OAUTH_CLIENT_ID=your_client_id
 GOOGLE_OAUTH_CLIENT_SECRET=your_client_secret
+
+# === Security & Encryption / 安全与加密 ===
+
+# JWT Secret for authentication (必需 / Required)
+JWT_SECRET=your_jwt_secret_minimum_32_characters_change_this
+JWT_EXPIRES_IN=7d
+
+# Encryption key for sensitive data (必需 / Required)
+ENCRYPTION_KEY=your_32_byte_base64_encryption_key
+
+# API Rate Limiting / API 速率限制
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
+
+# CORS Configuration / CORS 配置
+CORS_ORIGIN=http://localhost:3000,https://yourdomain.com
+```
+
+### 生成安全密钥 / Generating Security Keys
+
+```bash
+# 生成 JWT Secret / Generate JWT Secret
+openssl rand -base64 32
+
+# 生成加密密钥 / Generate Encryption Key
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+
+# 或使用内置工具 / Or use built-in tools
+node -e "import { generateRandomKey } from './packages/config/dist/index.js'; console.log(generateRandomKey())"
+```
+
+### 日志配置 / Logging Configuration
+
+```bash
+# 开发开发（彩色输出）/ Development (colored output)
+LOG_LEVEL=debug
+LOG_PRETTY=true
+
+# 生产环境（JSON 输出）/ Production (JSON output)
+LOG_LEVEL=info
+LOG_PRETTY=false
 ```
 
 ### 工作流配置 / Pipeline Configuration

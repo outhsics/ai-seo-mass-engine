@@ -122,6 +122,35 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
+  packages/config:
+    dependencies:
+      dotenv:
+        specifier: ^16.6.1
+        version: 16.6.1
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.30
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/crypto:
+    dependencies:
+      '@seo-spy/logger':
+        specifier: workspace:*
+        version: link:../logger
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.30
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
   packages/data-sync:
     dependencies:
       archiver:
@@ -158,6 +187,19 @@ importers:
         version: 5.9.3
 
   packages/email-marketer:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.30
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/error-handler:
+    dependencies:
+      '@seo-spy/logger':
+        specifier: workspace:*
+        version: link:../logger
     devDependencies:
       '@types/node':
         specifier: ^20.11.0
@@ -267,6 +309,34 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
+  packages/logger:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.30
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/moz-api:
+    dependencies:
+      '@seo-spy/error-handler':
+        specifier: workspace:*
+        version: link:../error-handler
+      '@seo-spy/logger':
+        specifier: workspace:*
+        version: link:../logger
+      axios:
+        specifier: ^1.6.0
+        version: 1.13.2
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.30
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
   packages/netlify-deploy:
     dependencies:
       form-data:
@@ -285,9 +355,15 @@ importers:
 
   packages/orchestrator:
     dependencies:
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.6.1
+      '@seo-spy/config':
+        specifier: workspace:*
+        version: link:../config
+      '@seo-spy/error-handler':
+        specifier: workspace:*
+        version: link:../error-handler
+      '@seo-spy/logger':
+        specifier: workspace:*
+        version: link:../logger
     devDependencies:
       '@types/node':
         specifier: ^20.11.0

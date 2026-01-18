@@ -1,16 +1,25 @@
 {
-  "name": "@seo-spy/orchestrator",
+  "name": "@seo-spy/moz-api",
   "version": "1.0.0",
   "type": "module",
+  "description": "Moz API integration for SEO metrics and backlink analysis",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "dev": "tsc --watch",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
   },
+  "keywords": [
+    "moz",
+    "seo",
+    "backlinks",
+    "domain-authority"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
   "dependencies": {
-    "@seo-spy/config": "workspace:*",
+    "axios": "^1.6.0",
     "@seo-spy/logger": "workspace:*",
     "@seo-spy/error-handler": "workspace:*"
   },

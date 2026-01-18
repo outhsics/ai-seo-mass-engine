@@ -1,0 +1,28 @@
+{
+  "name": "@seo-spy/config",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Configuration and environment variable validation for AI-SEO-Mass-Engine",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "config",
+    "validation",
+    "environment"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "zod": "^3.22.4"
+  }
+}

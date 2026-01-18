@@ -1,0 +1,24 @@
+{
+  "name": "@seo-spy/logger",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Structured logging system for AI-SEO-Mass-Engine",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "logger",
+    "logging",
+    "structured"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@seo-spy/error-handler",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Centralized error handling for AI-SEO-Mass-Engine",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "error",
+    "handling",
+    "retry"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "dependencies": {
+    "@seo-spy/logger": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

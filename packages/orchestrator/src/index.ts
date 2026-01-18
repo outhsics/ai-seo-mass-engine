@@ -8,10 +8,22 @@
 import { execSync } from 'child_process';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
-import dotenv from 'dotenv';
+import { loadConfig, validateFeatureConfig } from '@seo-spy/config';
+import { createLogger } from '@seo-spy/logger';
+import { setupGlobalErrorHandlers } from '@seo-spy/error-handler';
 
-// 加载环境变量
-dotenv.config();
+// 设置全局错误处理
+setupGlobalErrorHandlers();
+
+// 加载并验证配置
+const logger = createLogger('orchestrator');
+const config = loadConfig();
+
+logger.info('Configuration loaded successfully', {
+  nodeEnv: config.NODE_ENV,
+  logLevel: config.LOG_LEVEL,
+  apiPort: config.API_PORT
+});
 
 interface PipelineConfig {
   // 关键词配置
@@ -60,7 +72,7 @@ class SEOPipelineOrchestrator {
   }
 
   async execute(): Promise<void> {
-    console.log('🚀 Starting SEO Pipeline Execution...\n');
+    logger.info('🚀 Starting SEO Pipeline Execution...');
 
     const startTime = Date.now();
 
@@ -90,9 +102,7 @@ class SEOPipelineOrchestrator {
     handler: () => Promise<void>
   ): Promise<void> {
     const startTime = Date.now();
-    console.log(`\n${'='.repeat(60)}`);
-    console.log(`📋 Stage: ${stageName.toUpperCase()}`);
-    console.log(`${'='.repeat(60)}`);
+    logger.info(`📋 Stage: ${stageName.toUpperCase()}`);
 
     try {
       await handler();
@@ -103,7 +113,7 @@ class SEOPipelineOrchestrator {
         duration: Date.now() - startTime
       });
 
-      console.log(`✅ ${stageName} completed successfully\n`);
+      logger.info(`✅ ${stageName} completed successfully`);
     } catch (error) {
       this.results.push({
         stage: stageName,
@@ -112,92 +122,94 @@ class SEOPipelineOrchestrator {
         error: error instanceof Error ? error.message : 'Unknown error'
       });
 
-      console.error(`❌ ${stageName} failed:`, error);
+      logger.error(`❌ ${stageName} failed:`, error as Error);
       throw error; // 失败则停止整个流程
     }
   }
 
   private async runKeywordScraping(): Promise<void> {
     if (!this.config.keywords.enabled) {
-      console.log('⏭️  Keyword scraping disabled, skipping...');
+      logger.info('⏭️  Keyword scraping disabled, skipping...');
       return;
     }
 
-    console.log(`🔍 Scraping keywords for niches: ${this.config.keywords.niches.join(', ')}`);
-    console.log(`📊 Target: ${this.config.keywords.maxKeywords} keywords`);
+    logger.info(`🔍 Scraping keywords for niches: ${this.config.keywords.niches.join(', ')}`);
+    logger.info(`📊 Target: ${this.config.keywords.maxKeywords} keywords`);
 
     // 调用 keyword-spy 模块
-    execSync('pnpm run build --filter @seo-spy/keyword-spy', { stdio: 'inherit' });
+    execSync('pnpm -F @seo-spy/keyword-spy build', { stdio: 'inherit' });
     execSync('node packages/keyword-spy/dist/index.js', { stdio: 'inherit' });
   }
 
   private async runArticleGeneration(): Promise<void> {
     if (!this.config.articles.enabled) {
-      console.log('⏭️  Article generation disabled, skipping...');
+      logger.info('⏭️  Article generation disabled, skipping...');
       return;
     }
 
-    if (!process.env.ANTHROPIC_API_KEY) {
-      throw new Error('ANTHROPIC_API_KEY is required for article generation');
+    const validation = validateFeatureConfig('article-gen');
+    if (!validation.valid) {
+      throw new Error(`Article generation configuration missing: ${validation.missing.join(', ')}`);
     }
 
-    console.log(`🤖 Generating ${this.config.articles.count} articles`);
-    console.log(`📝 Min words per article: ${this.config.articles.minWords}`);
+    logger.info(`🤖 Generating ${this.config.articles.count} articles`);
+    logger.info(`📝 Min words per article: ${this.config.articles.minWords}`);
 
     // 调用 article-gen 模块
-    execSync('pnpm run build --filter @seo-spy/article-gen', { stdio: 'inherit' });
+    execSync('pnpm -F @seo-spy/article-gen build', { stdio: 'inherit' });
     execSync('node packages/article-gen/dist/index.js', { stdio: 'inherit' });
   }
 
   private async runSiteBuild(): Promise<void> {
     if (!this.config.build.enabled) {
-      console.log('⏭️  Site build disabled, skipping...');
+      logger.info('⏭️  Site build disabled, skipping...');
       return;
     }
 
-    console.log(`🏗️  Building site...`);
+    logger.info(`🏗️  Building site...`);
 
     // 复制生成的文章到 Astro 内容目录
     this.copyArticlesToSite();
 
     // 调用 Astro 构建
-    execSync('pnpm run build --filter @seo-spy/site-template', { stdio: 'inherit' });
+    execSync('pnpm -F @seo-spy/site-template build', { stdio: 'inherit' });
   }
 
   private async runDeployment(): Promise<void> {
     if (!this.config.deploy.enabled) {
-      console.log('⏭️  Deployment disabled, skipping...');
+      logger.info('⏭️  Deployment disabled, skipping...');
       return;
     }
 
     const platform = this.config.deploy.platform;
-    console.log(`🚀 Deploying to ${platform}...`);
+    logger.info(`🚀 Deploying to ${platform}...`);
 
     // 调用 deploy 模块
-    execSync('pnpm run build --filter @seo-spy/deploy', { stdio: 'inherit' });
+    execSync('pnpm -F @seo-spy/deploy build', { stdio: 'inherit' });
     execSync('node packages/deploy/dist/index.js', { stdio: 'inherit' });
   }
 
   private async runSitemapSubmission(): Promise<void> {
     if (!this.config.sitemap.enabled) {
-      console.log('⏭️  Sitemap submission disabled, skipping...');
+      logger.info('⏭️  Sitemap submission disabled, skipping...');
       return;
     }
 
     if (!this.config.sitemap.autoSubmit) {
-      console.log('📋 Sitemap generated (auto-submit disabled)');
+      logger.info('📋 Sitemap generated (auto-submit disabled)');
       return;
     }
 
-    if (!process.env.GOOGLE_SERVICE_ACCOUNT_KEY_PATH) {
-      console.warn('⚠️  GOOGLE_SERVICE_ACCOUNT_KEY_PATH not set, skipping...');
+    const googleKeyPath = config.GOOGLE_SERVICE_ACCOUNT_KEY_PATH;
+    if (!googleKeyPath) {
+      logger.warn('⚠️  GOOGLE_SERVICE_ACCOUNT_KEY_PATH not set, skipping...');
       return;
     }
 
-    console.log('📤 Submitting sitemap to search engines...');
+    logger.info('📤 Submitting sitemap to search engines...');
 
     // 调用 sitemap-submitter 模块
-    execSync('pnpm run build --filter @seo-spy/sitemap-submitter', { stdio: 'inherit' });
+    execSync('pnpm -F @seo-spy/sitemap-submitter build', { stdio: 'inherit' });
     execSync('node packages/sitemap-submitter/dist/index.js', { stdio: 'inherit' });
   }
 
@@ -206,7 +218,7 @@ class SEOPipelineOrchestrator {
     const targetDir = join(process.cwd(), 'packages/site-template/src/content/posts');
 
     if (!existsSync(sourceDir)) {
-      console.warn('⚠️  No articles found to copy');
+      logger.warn('⚠️  No articles found to copy');
       return;
     }
 
@@ -214,26 +226,24 @@ class SEOPipelineOrchestrator {
 
     // 这里应该实现文件复制逻辑
     // 简化处理：假设已通过符号链接或其他方式处理
-    console.log('📄 Articles linked to site content directory');
+    logger.info('📄 Articles linked to site content directory');
   }
 
   private generateReport(totalDuration: number): void {
-    console.log('\n' + '='.repeat(60));
-    console.log('📊 PIPELINE EXECUTION REPORT');
-    console.log('='.repeat(60));
+    logger.info('📊 PIPELINE EXECUTION REPORT');
 
     const durationMinutes = Math.floor(totalDuration / 60000);
     const durationSeconds = Math.floor((totalDuration % 60000) / 1000);
 
-    console.log(`\n⏱️  Total Duration: ${durationMinutes}m ${durationSeconds}s\n`);
+    logger.info(`⏱️  Total Duration: ${durationMinutes}m ${durationSeconds}s`);
 
     this.results.forEach(result => {
       const icon = result.status === 'success' ? '✅' : '❌';
       const duration = (result.duration / 1000).toFixed(2);
-      console.log(`${icon} ${result.stage.padEnd(25)} ${duration}s`);
+      logger.info(`${icon} ${result.stage.padEnd(25)} ${duration}s`);
 
       if (result.error) {
-        console.log(`   Error: ${result.error}`);
+        logger.error(`   Error: ${result.error}`);
       }
     });
 
@@ -249,11 +259,9 @@ class SEOPipelineOrchestrator {
     };
 
     writeFileSync(reportPath, JSON.stringify(reportData, null, 2));
-    console.log(`\n📝 Report saved to: ${reportPath}`);
+    logger.info(`📝 Report saved to: ${reportPath}`);
 
-    console.log('\n' + '='.repeat(60));
-    console.log('🎉 Pipeline completed successfully!');
-    console.log('='.repeat(60) + '\n');
+    logger.info('🎉 Pipeline completed successfully!');
   }
 }
 
@@ -265,14 +273,14 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   // 读取配置或使用默认值
   const configPath = process.env.CONFIG_PATH || join(process.cwd(), 'pipeline.config.json');
 
-  let config: PipelineConfig;
+  let pipelineConfig: PipelineConfig;
 
   if (existsSync(configPath)) {
-    config = JSON.parse(readFileSync(configPath, 'utf-8'));
-    console.log(`📄 Loaded config from: ${configPath}`);
+    pipelineConfig = JSON.parse(readFileSync(configPath, 'utf-8'));
+    logger.info(`📄 Loaded config from: ${configPath}`);
   } else {
     // 默认配置
-    config = {
+    pipelineConfig = {
       keywords: {
         enabled: true,
         niches: ['前端开发', 'React教程', 'TypeScript入门', 'Astro框架'],
@@ -297,12 +305,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       }
     };
 
-    console.log('⚠️  Using default configuration');
+    logger.warn('⚠️  Using default configuration');
   }
 
-  const orchestrator = new SEOPipelineOrchestrator(config);
+  const orchestrator = new SEOPipelineOrchestrator(pipelineConfig);
   orchestrator.execute().catch(error => {
-    console.error('💥 Pipeline failed:', error);
+    logger.fatal('💥 Pipeline failed:', error as Error);
     process.exit(1);
   });
 }
