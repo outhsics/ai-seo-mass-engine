@@ -1,0 +1,164 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="关于我们 - SEO Site" description="关于本站点的介绍">
+  <div class="about-page">
+    <header class="about-header">
+      <h1>关于我们</h1>
+      <p class="subtitle">专注前端开发与 SEO 优化的技术站点</p>
+    </header>
+
+    <section class="content">
+      <h2>我们的使命</h2>
+      <p>
+        AI-SEO-Mass-Engine 是一个自动化 SEO 站群系统，致力于为开发者提供高质量的技术内容和最佳实践。
+      </p>
+
+      <h2>技术栈</h2>
+      <ul>
+        <li><strong>Astro</strong> - 极速静态站点生成器</li>
+        <li><strong>TypeScript</strong> - 类型安全的 JavaScript</li>
+        <li><strong>React</strong> - 用户界面库</li>
+        <li><strong>SEO 优化</strong> - 完整的搜索引擎优化方案</li>
+      </ul>
+
+      <h2>特色功能</h2>
+      <div class="features">
+        <div class="feature">
+          <h3>🚀 极速性能</h3>
+          <p>Lighthouse 性能评分 95+，首屏加载时间 &lt; 1秒</p>
+        </div>
+        <div class="feature">
+          <h3>📱 响应式设计</h3>
+          <p>完美适配各种设备，提供最佳用户体验</p>
+        </div>
+        <div class="feature">
+          <h3>🔍 SEO 优化</h3>
+          <p>完整的 meta 标签、结构化数据和站点地图</p>
+        </div>
+        <div class="feature">
+          <h3>📝 深度内容</h3>
+          <p>原创技术文章，包含实战代码示例</p>
+        </div>
+      </div>
+
+      <h2>联系方式</h2>
+      <p>
+        有问题或建议？欢迎通过以下方式联系我们：
+      </p>
+      <ul class="contact">
+        <li>📧 Email: contact@example.com</li>
+        <li>🐙 GitHub: @ai-seo-mass-engine</li>
+        <li>🐦 Twitter: @ai_seo_engine</li>
+      </ul>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .about-page {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .about-header {
+    text-align: center;
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .about-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+  }
+
+  .content h2 {
+    font-size: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-primary);
+  }
+
+  .content p {
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    color: #374151;
+  }
+
+  .content ul {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+  }
+
+  .content li {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .feature {
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .feature:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .feature h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature p {
+    color: var(--color-secondary);
+    font-size: 0.875rem;
+  }
+
+  .contact {
+    list-style: none;
+    padding: 0;
+  }
+
+  .contact li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .contact li:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: 768px) {
+    .about-header h1 {
+      font-size: 2rem;
+    }
+
+    .content h2 {
+      font-size: 1.5rem;
+    }
+
+    .features {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

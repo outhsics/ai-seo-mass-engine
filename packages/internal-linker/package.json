@@ -1,0 +1,19 @@
+{
+  "name": "@seo-spy/internal-linker",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "link": "node dist/index.js"
+  },
+  "dependencies": {
+    "natural": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/natural": "^5.1.5",
+    "typescript": "^5.3.3"
+  }
+}

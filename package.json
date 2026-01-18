@@ -1,0 +1,51 @@
+{
+  "name": "ai-seo-mass-engine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Automated SEO site matrix system with AI-powered content generation",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm -F \"@seo-spy/*\" run dev",
+    "build:packages": "pnpm -F \"@seo-spy/keyword-spy\" build && pnpm -F \"@seo-spy/article-gen\" build && pnpm -F \"@seo-spy/deploy\" build && pnpm -F \"@seo-spy/sitemap-submitter\" build && pnpm -F \"@seo-spy/orchestrator\" build && pnpm -F \"@seo-spy/internal-linker\" build && pnpm -F \"@seo-spy/image-gen\" build && pnpm -F \"@seo-spy/rank-monitor\" build && pnpm -F \"@seo-spy/analytics-dashboard\" build && pnpm -F \"@seo-spy/ab-testing\" build && pnpm -F \"@seo-spy/cluster-manager\" build && pnpm -F \"@seo-spy/global-dashboard\" build && pnpm -F \"@seo-spy/data-sync\" build && pnpm -F \"@seo-spy/auto-reports\" build && pnpm -F \"@seo-spy/i18n\" build",
+    "build:site": "pnpm -F \"@seo-spy/site-template\" build",
+    "build": "pnpm build:packages",
+    "start": "node packages/orchestrator/dist/index.js",
+    "keywords:scrape": "node packages/keyword-spy/dist/index.js",
+    "articles:generate": "node packages/article-gen/dist/index.js",
+    "sites:build": "pnpm build:site",
+    "sitemap:submit": "node packages/sitemap-submitter/dist/index.js",
+    "internal-links:generate": "node packages/internal-linker/dist/index.js",
+    "images:generate": "node packages/image-gen/dist/index.js",
+    "rankings:check": "node packages/rank-monitor/dist/index.js",
+    "dashboard:generate": "node packages/analytics-dashboard/dist/index.js",
+    "ab-test:create": "node packages/ab-testing/dist/index.js",
+    "cluster:manage": "node packages/cluster-manager/dist/index.js",
+    "global-dashboard": "node packages/global-dashboard/dist/index.js",
+    "backup:create": "node packages/data-sync/dist/index.js",
+    "report:weekly": "node packages/auto-reports/dist/index.js"
+  },
+  "keywords": [
+    "seo",
+    "automation",
+    "ai",
+    "claude",
+    "astro",
+    "site-generator"
+  ],
+  "author": "SEO-Hacker",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.0",
+    "terser": "^5.46.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.0"
+  }
+}

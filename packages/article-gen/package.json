@@ -1,0 +1,21 @@
+{
+  "name": "@seo-spy/article-gen",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "generate": "node dist/index.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.0",
+    "markdown-it": "^14.0.0",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^13.0.7",
+    "typescript": "^5.3.3"
+  }
+}

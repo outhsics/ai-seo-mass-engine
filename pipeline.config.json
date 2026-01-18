@@ -1,0 +1,50 @@
+{
+  "keywords": {
+    "enabled": true,
+    "niches": [
+      "前端报错解决",
+      "React Hooks教程",
+      "TypeScript类型问题",
+      "Astro静态站点生成",
+      "Next.js服务端渲染",
+      "Vue3组合式API",
+      "Webpack配置优化",
+      "Vite构建工具",
+      "CSS Grid布局",
+      "JavaScript性能优化"
+    ],
+    "maxKeywords": 500,
+    "sources": [
+      { "type": "google", "enabled": true },
+      { "type": "baidu", "enabled": true }
+    ]
+  },
+  "articles": {
+    "enabled": true,
+    "count": 20,
+    "minWords": 1500,
+    "includeCodeExamples": true,
+    "includeImages": true,
+    "tone": "technical",
+    "language": "zh-CN"
+  },
+  "build": {
+    "enabled": true,
+    "outputDir": "./dist"
+  },
+  "deploy": {
+    "enabled": false,
+    "platform": "cloudflare",
+    "sites": [
+      {
+        "name": "site-001",
+        "domain": "site-001.example.com",
+        "sourceDir": "./sites/site-001"
+      }
+    ]
+  },
+  "sitemap": {
+    "enabled": true,
+    "autoSubmit": false
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@seo-spy/sitemap-submitter",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "submit": "node dist/index.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.5",
+    "google-auth-library": "^9.0.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}

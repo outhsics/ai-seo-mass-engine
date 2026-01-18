@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// 获取最新文章
+const allPosts = await getCollection('posts');
+const latestPosts = allPosts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 6);
+---
+
+<Layout title="首页 - SEO Site" description="高质量技术文章站点">
+  <section class="hero">
+    <h1>欢迎来到 SEO 技术站点</h1>
+    <p>专注于前端开发、SEO 优化和技术教程</p>
+  </section>
+
+  <section class="latest-posts">
+    <h2>最新文章</h2>
+    <div class="grid grid-3">
+      {latestPosts.map(post => (
+        <article class="article-card">
+          <h3>
+            <a href={`/articles/${post.slug}`}>{post.data.title}</a>
+          </h3>
+          <p>{post.data.description}</p>
+          <div class="article-meta">
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString('zh-CN')}
+            </time>
+            <span>•</span>
+            <span>{post.data.tags.join(', ')}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {latestPosts.length > 0 && (
+    <div class="text-center mt-4">
+      <a href="/articles" class="view-all">查看全部文章 →</a>
+    </div>
+  )}
+</Layout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+  }
+
+  .latest-posts {
+    margin-top: 3rem;
+  }
+
+  .latest-posts h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .view-all {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+
+  .view-all:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+</style>

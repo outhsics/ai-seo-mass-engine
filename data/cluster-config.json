@@ -1,0 +1,73 @@
+{
+  "sites": [
+    {
+      "name": "React Tutorial Hub",
+      "domain": "react-tutorials.example.com",
+      "platform": "cloudflare",
+      "niche": "React Development",
+      "keywords": [
+        "react",
+        "react hooks",
+        "react tutorial"
+      ],
+      "metrics": {
+        "pageviews": 45230,
+        "uniqueVisitors": 12340,
+        "avgRanking": 15,
+        "backlinks": 234,
+        "indexedPages": 45
+      },
+      "id": "site-1768698826013",
+      "createdAt": "2026-01-18T01:13:46.013Z",
+      "status": "active"
+    },
+    {
+      "name": "TypeScript Mastery",
+      "domain": "typescript-mastery.example.com",
+      "platform": "vercel",
+      "niche": "TypeScript",
+      "keywords": [
+        "typescript",
+        "ts tutorial",
+        "type safety"
+      ],
+      "metrics": {
+        "pageviews": 38920,
+        "uniqueVisitors": 9870,
+        "avgRanking": 12,
+        "backlinks": 189,
+        "indexedPages": 38
+      },
+      "id": "site-1768698826015",
+      "createdAt": "2026-01-18T01:13:46.015Z",
+      "status": "active"
+    },
+    {
+      "name": "Astro Framework Guide",
+      "domain": "astro-guide.example.com",
+      "platform": "cloudflare",
+      "niche": "Astro",
+      "keywords": [
+        "astro",
+        "static site",
+        "ssg"
+      ],
+      "metrics": {
+        "pageviews": 28750,
+        "uniqueVisitors": 7650,
+        "avgRanking": 8,
+        "backlinks": 145,
+        "indexedPages": 32
+      },
+      "id": "site-1768698826016",
+      "createdAt": "2026-01-18T01:13:46.016Z",
+      "status": "active"
+    }
+  ],
+  "globalSettings": {
+    "maxSites": 100,
+    "autoDeploy": false,
+    "autoBackup": true,
+    "backupInterval": 24
+  }
+}

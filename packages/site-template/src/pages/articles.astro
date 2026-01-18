@@ -1,0 +1,185 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// 获取所有文章并排序
+const allPosts = await getCollection('posts');
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<Layout title="全部文章 - SEO Site" description="浏览所有技术文章">
+  <header class="page-header">
+    <h1>全部文章</h1>
+    <p>共 {sortedPosts.length} 篇文章</p>
+  </header>
+
+  <div class="articles-list">
+    {sortedPosts.map(post => (
+      <article class="article-item">
+        <div class="article-content">
+          <h2>
+            <a href={`/articles/${post.slug}`}>
+              {post.data.title}
+            </a>
+          </h2>
+          <p class="description">{post.data.description}</p>
+
+          <div class="meta">
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </time>
+            <span>•</span>
+            <span class="author">{post.data.author}</span>
+            <span>•</span>
+            <div class="tags">
+              {post.data.tags.map(tag => (
+                <span class="tag">#{tag}</span>
+              ))}
+            </div>
+          </div>
+
+          {post.data.seoScore && (
+            <div class="seo-badge">
+              SEO: {post.data.seoScore}/100
+            </div>
+          )}
+        </div>
+
+        <a href={`/articles/${post.slug}`} class="read-more">
+          阅读全文 →
+        </a>
+      </article>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    text-align: center;
+    padding: 3rem 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p {
+    color: var(--color-secondary);
+    font-size: 1.125rem;
+  }
+
+  .articles-list {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .article-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    gap: 2rem;
+  }
+
+  .article-item:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .article-content {
+    flex: 1;
+  }
+
+  .article-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .article-content h2 a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .article-content h2 a:hover {
+    color: var(--color-primary);
+  }
+
+  .description {
+    color: var(--color-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-secondary);
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: #f3f4f6;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .seo-badge {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: #d1fae5;
+    color: #065f46;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .read-more {
+    padding: 0.75rem 1.5rem;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .read-more:hover {
+    opacity: 0.9;
+    text-decoration: none;
+  }
+
+  @media (max-width: 640px) {
+    .article-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .read-more {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>

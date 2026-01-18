@@ -1,0 +1,188 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(post => ({
+    params: { id: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// 获取原始内容用于计算阅读时间
+const rawContent = post.body;
+const wordCount = rawContent.split(/\s+/).length;
+const readingTime = Math.ceil(wordCount / 200);
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  keywords={post.data.keywords}
+  author={post.data.author}
+  publishedTime={post.data.date.toISOString()}
+>
+  <article class="prose">
+    <header class="article-header">
+      <h1>{post.data.title}</h1>
+
+      <div class="article-meta">
+        <span class="author">👤 {post.data.author}</span>
+        <span class="separator">•</span>
+        <time class="date" datetime={post.data.date.toISOString()}>
+          {post.data.date.toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </time>
+        <span class="separator">•</span>
+        <span class="reading-time">⏱️ 预计阅读时间：{readingTime} 分钟</span>
+      </div>
+
+      <div class="tags">
+        {post.data.tags.map(tag => (
+          <span class="tag">#{tag}</span>
+        ))}
+      </div>
+
+      {post.data.seoScore && (
+        <div class="seo-score">
+          SEO 评分: <strong>{post.data.seoScore}/100</strong>
+        </div>
+      )}
+    </header>
+
+    <Content />
+
+    <footer class="article-footer">
+      <div class="keywords">
+        <strong>关键词:</strong> {post.data.keywords.join(', ')}
+      </div>
+
+      <nav class="related-posts">
+        <h3>相关文章</h3>
+        <ul>
+          <li><a href="/articles/react-hooks-guide">React Hooks 完全指南</a></li>
+          <li><a href="/articles/typescript-best-practices">TypeScript 最佳实践</a></li>
+        </ul>
+      </nav>
+    </footer>
+  </article>
+
+  <script>
+    // 添加阅读进度条
+    const updateProgressBar = () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progress-bar')!.style.width = scrolled + '%';
+    };
+
+    window.addEventListener('scroll', updateProgressBar);
+
+    // 代码高亮（可选）
+    document.querySelectorAll('pre code').forEach((block) => {
+      block.innerHTML = block.innerHTML
+        .split('\n')
+        .map(line => `<span class="line">${line}</span>`)
+        .join('\n');
+    });
+  </script>
+</Layout>
+
+<style>
+  #progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    z-index: 1000;
+    transition: width 0.1s;
+  }
+
+  .article-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .article-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #111827;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-secondary);
+    margin: 1rem 0;
+  }
+
+  .separator {
+    color: var(--color-border);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    background: #f3f4f6;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    color: #4b5563;
+  }
+
+  .seo-score {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: #d1fae5;
+    color: #065f46;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .article-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .keywords {
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+  }
+
+  .related-posts h3 {
+    margin-bottom: 1rem;
+  }
+
+  .related-posts ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .related-posts li {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .article-header h1 {
+      font-size: 1.875rem;
+    }
+  }
+</style>

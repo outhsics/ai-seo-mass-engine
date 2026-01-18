@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    .dashboard {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.875rem;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .stat-change {
+      font-size: 0.875rem;
+      margin-top: 5px;
+    }
+
+    .stat-change.positive { color: #10b981; }
+    .stat-change.negative { color: #ef4444; }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .chart-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .chart-title {
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .table-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+      background: #f9fafb;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .trend-up { color: #10b981; }
+    .trend-down { color: #ef4444; }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="header">
+      <h1>📊 SEO Analytics Dashboard</h1>
+      <p>Real-time SEO performance metrics</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Pageviews (30 days)</div>
+        <div class="stat-value">107,706</div>
+        <div class="stat-change positive">↑ 12.5% vs last period</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Unique Visitors</div>
+        <div class="stat-value">46,799</div>
+        <div class="stat-change positive">↑ 8.3% vs last period</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg. Bounce Rate</div>
+        <div class="stat-value">42.6%</div>
+        <div class="stat-change negative">↓ 2.1% vs last period</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg. Session Duration</div>
+        <div class="stat-value">142s</div>
+        <div class="stat-change positive">↑ 15.7% vs last period</div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-title">Traffic Trend (30 Days)</div>
+        <canvas id="trafficChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Traffic Sources</div>
+        <canvas id="sourcesChart"></canvas>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="chart-title">Top Performing Pages</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>Views</th>
+            <th>Avg. Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td>/articles/react-hooks-guide/</td>
+              <td>5,420</td>
+              <td>4m 5s</td>
+            </tr>
+          
+            <tr>
+              <td>/articles/typescript-best-practices/</td>
+              <td>3,890</td>
+              <td>5m 12s</td>
+            </tr>
+          
+            <tr>
+              <td>/articles/astro-static-site/</td>
+              <td>2,980</td>
+              <td>3m 18s</td>
+            </tr>
+          
+            <tr>
+              <td>/</td>
+              <td>8,740</td>
+              <td>1m 29s</td>
+            </tr>
+          
+            <tr>
+              <td>/articles</td>
+              <td>2,130</td>
+              <td>2m 4s</td>
+            </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Traffic Chart
+    new Chart(document.getElementById('trafficChart'), {
+      type: 'line',
+      data: {
+        labels: ["2025-12-20","2025-12-21","2025-12-22","2025-12-23","2025-12-24","2025-12-25","2025-12-26","2025-12-27","2025-12-28","2025-12-29","2025-12-30","2025-12-31","2026-01-01","2026-01-02","2026-01-03","2026-01-04","2026-01-05","2026-01-06","2026-01-07","2026-01-08","2026-01-09","2026-01-10","2026-01-11","2026-01-12","2026-01-13","2026-01-14","2026-01-15","2026-01-16","2026-01-17","2026-01-18"],
+        datasets: [{
+          label: 'Pageviews',
+          data: [3974,3156,3050,3437,3074,5865,4877,2604,3168,2375,3873,2552,4754,1172,1781,5141,5298,1122,1487,3854,4898,3689,4899,5977,3619,3899,5977,3625,3344,1165],
+          borderColor: '#667eea',
+          backgroundColor: 'rgba(102, 126, 234, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    // Sources Chart
+    new Chart(document.getElementById('sourcesChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ["Google Organic","Direct","Referral","Social","Other"],
+        datasets: [{
+          data: [45.2,23.8,15.4,10.3,5.3],
+          backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

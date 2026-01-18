@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.out/
+.astro/
+
+# Environment
+.env
+.env.local
+.env.*.local
+*.env
+
+# Data
+data/generated/
+data/keywords/
+data/cache/
+data/articles/
+data/reports/
+
+# Backups
+backups/
+*.backup
+*.zip
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated sites (optional, comment out if you want to version control)
+sites/*/
+!sites/.gitkeep
+
+# Temp
+tmp/
+temp/
+*.tmp

@@ -1,0 +1,56 @@
+{
+  "id": "test-1768695993046",
+  "name": "Homepage Title Test",
+  "description": "测试不同标题对点击率的影响",
+  "status": "active",
+  "variants": [
+    {
+      "id": "control",
+      "name": "Control",
+      "description": "Original title",
+      "config": {
+        "title": "Welcome to SEO Site"
+      }
+    },
+    {
+      "id": "variant-a",
+      "name": "Variant A",
+      "description": "Benefit-focused title",
+      "config": {
+        "title": "Boost Your SEO Ranking Today"
+      }
+    },
+    {
+      "id": "variant-b",
+      "name": "Variant B",
+      "description": "Question title",
+      "config": {
+        "title": "Want Better SEO Results?"
+      }
+    }
+  ],
+  "createdAt": "2026-01-18T00:26:33.046Z",
+  "results": [
+    {
+      "variantId": "control",
+      "visitors": 1,
+      "conversions": 1,
+      "conversionRate": 100,
+      "confidence": 0
+    },
+    {
+      "variantId": "variant-a",
+      "visitors": 1,
+      "conversions": 1,
+      "conversionRate": 100,
+      "confidence": 70.71067811865474
+    },
+    {
+      "variantId": "variant-b",
+      "visitors": 1,
+      "conversions": 0,
+      "conversionRate": 0,
+      "confidence": 70.71067811865474
+    }
+  ]
+}

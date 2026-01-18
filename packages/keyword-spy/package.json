@@ -1,0 +1,21 @@
+{
+  "name": "@seo-spy/keyword-spy",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "scrape": "node dist/index.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer": "^22.0.0",
+    "p-limit": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.35",
+    "typescript": "^5.3.3"
+  }
+}
